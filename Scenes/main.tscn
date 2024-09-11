@@ -1,0 +1,110 @@
+[gd_scene load_steps=15 format=3 uid="uid://bbdo2b4nv2d2w"]
+
+[ext_resource type="Script" path="res://Scripts/Player.cs" id="1_atjvq"]
+[ext_resource type="Shader" path="res://Scripts/RepeatTex.gdshader" id="2_e0o5v"]
+[ext_resource type="Texture2D" uid="uid://wtjlt2ryvnpt" path="res://Assets/Sky.jpg" id="3_xgj1d"]
+[ext_resource type="Texture2D" uid="uid://c62hhvh4aqhrh" path="res://Assets/Player_1Idle.png" id="4_u8cr2"]
+[ext_resource type="Texture2D" uid="uid://rox6lwfa8nkp" path="res://Assets/Player_2Idle.png" id="5_115ff"]
+[ext_resource type="Texture2D" uid="uid://dqlbuo6cwjps3" path="res://Assets/Player_walk1.png" id="6_35qva"]
+[ext_resource type="Texture2D" uid="uid://422ye77foubj" path="res://Assets/Player_walk2.png" id="7_84r15"]
+[ext_resource type="Texture2D" uid="uid://f1u282xlsjjd" path="res://Assets/Player_walk3.png" id="8_vs6bm"]
+[ext_resource type="Texture2D" uid="uid://fjh1hcw771f3" path="res://Assets/Ground.png" id="9_gwhvg"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8hji1"]
+shader = ExtResource("2_e0o5v")
+shader_parameter/tint = Color(1, 1, 1, 1)
+shader_parameter/textureScaler = 0.001
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8oc8w"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"Deflect",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_u8cr2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_115ff")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"Slap",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_35qva")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_84r15")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_vs6bm")
+}],
+"loop": true,
+"name": &"Walk",
+"speed": 8.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_e5v2p"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xi1jy"]
+texture = ExtResource("9_gwhvg")
+texture_region_size = Vector2i(516, 516)
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-258, -258, 258, -258, 258, 258, -258, 258)
+
+[sub_resource type="TileSet" id="TileSet_es0mg"]
+tile_size = Vector2i(516, 516)
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_xi1jy")
+
+[node name="Main" type="Node2D"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="." node_paths=PackedStringArray("animatedSprite")]
+position = Vector2(1037, 480)
+script = ExtResource("1_atjvq")
+speed = 900.0
+maxSpeed = 1200.0
+Friction = 1500.0
+timeToDecend = 0.3
+JumpHeight = 300.0
+dashDistance = 500.0
+dashTime = 0.2
+dashcooldown = 0.4
+animatedSprite = NodePath("AnimatedSprite2D")
+
+[node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
+zoom = Vector2(0.75, 0.75)
+
+[node name="TextureRect" type="TextureRect" parent="CharacterBody2D/Camera2D"]
+texture_repeat = 2
+material = SubResource("ShaderMaterial_8hji1")
+offset_left = -1263.0
+offset_top = -809.0
+offset_right = 1173.0
+offset_bottom = 787.0
+texture = ExtResource("3_xgj1d")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
+sprite_frames = SubResource("SpriteFrames_8oc8w")
+animation = &"Deflect"
+autoplay = "Idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+shape = SubResource("CapsuleShape2D_e5v2p")
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_es0mg")
+rendering_quadrant_size = 128
+format = 2
+layer_0/tile_data = PackedInt32Array(131072, 0, 0, 131073, 0, 0, 131074, 0, 0, 131075, 0, 0, 131076, 0, 0, 131077, 0, 0, 131078, 0, 0, 196607, 0, 0, 196606, 0, 0, 196605, 0, 0, 196604, 0, 0)

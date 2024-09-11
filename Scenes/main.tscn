@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bbdo2b4nv2d2w"]
+[gd_scene load_steps=21 format=3 uid="uid://bbdo2b4nv2d2w"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_atjvq"]
 [ext_resource type="Shader" path="res://Scripts/RepeatTex.gdshader" id="2_e0o5v"]
@@ -9,6 +9,11 @@
 [ext_resource type="Texture2D" uid="uid://422ye77foubj" path="res://Assets/Player_walk2.png" id="7_84r15"]
 [ext_resource type="Texture2D" uid="uid://f1u282xlsjjd" path="res://Assets/Player_walk3.png" id="8_vs6bm"]
 [ext_resource type="Texture2D" uid="uid://fjh1hcw771f3" path="res://Assets/Ground.png" id="9_gwhvg"]
+[ext_resource type="Texture2D" uid="uid://dlius7xxwgi01" path="res://Assets/ButterFly_1.png" id="10_pt7y7"]
+[ext_resource type="Texture2D" uid="uid://3lj6ydbm5mn4" path="res://Assets/ButterFly_2.png" id="11_7cg04"]
+[ext_resource type="Texture2D" uid="uid://4d6p3de0lbry" path="res://Assets/ButterFly_transform`.png" id="11_yccgd"]
+[ext_resource type="Texture2D" uid="uid://gpi3r8licw4n" path="res://Assets/ButterFly_transform1.png" id="12_iol84"]
+[ext_resource type="Texture2D" uid="uid://d2nn6ea66f3e1" path="res://Assets/ButterFly_transform2.png" id="13_8ajo8"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8hji1"]
 shader = ExtResource("2_e0o5v")
@@ -68,12 +73,52 @@ tile_size = Vector2i(516, 516)
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_xi1jy")
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_lphjg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_pt7y7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_yccgd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_iol84")
+}],
+"loop": true,
+"name": &"Transform",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("12_iol84")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_8ajo8")
+}],
+"loop": true,
+"name": &"VenusFlap",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_pt7y7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_7cg04")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
 [node name="Main" type="Node2D"]
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="." node_paths=PackedStringArray("animatedSprite")]
 position = Vector2(1037, 480)
 script = ExtResource("1_atjvq")
-speed = 900.0
+animatedSprite = NodePath("AnimatedSprite2D")
+speed = 2000.0
 maxSpeed = 1200.0
 Friction = 1500.0
 timeToDecend = 0.3
@@ -81,7 +126,6 @@ JumpHeight = 300.0
 dashDistance = 500.0
 dashTime = 0.2
 dashcooldown = 0.4
-animatedSprite = NodePath("AnimatedSprite2D")
 
 [node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
 zoom = Vector2(0.75, 0.75)
@@ -89,10 +133,10 @@ zoom = Vector2(0.75, 0.75)
 [node name="TextureRect" type="TextureRect" parent="CharacterBody2D/Camera2D"]
 texture_repeat = 2
 material = SubResource("ShaderMaterial_8hji1")
-offset_left = -1263.0
-offset_top = -809.0
-offset_right = 1173.0
-offset_bottom = 787.0
+offset_left = -3424.0
+offset_top = -2167.0
+offset_right = 2689.0
+offset_bottom = 2065.0
 texture = ExtResource("3_xgj1d")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
@@ -108,3 +152,16 @@ tile_set = SubResource("TileSet_es0mg")
 rendering_quadrant_size = 128
 format = 2
 layer_0/tile_data = PackedInt32Array(131072, 0, 0, 131073, 0, 0, 131074, 0, 0, 131075, 0, 0, 131076, 0, 0, 131077, 0, 0, 131078, 0, 0, 196607, 0, 0, 196606, 0, 0, 196605, 0, 0, 196604, 0, 0)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(1322, 763)
+sprite_frames = SubResource("SpriteFrames_lphjg")
+animation = &"VenusFlap"
+autoplay = "VenusFlap"
+frame_progress = 0.133437
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="."]
+position = Vector2(1630, 840)
+sprite_frames = SubResource("SpriteFrames_lphjg")
+autoplay = "default"
+frame_progress = 0.199736
